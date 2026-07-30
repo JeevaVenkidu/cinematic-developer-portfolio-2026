@@ -1,0 +1,20 @@
+# Jeeva Venkidu — Backend Software Developer & Engineer
+
+> Portfolio URL: https://jeevavenkidu.vercel.app/
+> GitHub: https://github.com/JeevaVenkidu
+> LinkedIn: https://www.linkedin.com/in/jeevavenkidu/
+
+## About
+Jeeva Venkidu is an Agricultural Engineer turned Backend Software Developer who builds high-performance digital products, AI orchestration engines, and open-source developer tooling.
+
+## Key Technical Skills
+- **Backend Architecture**: Node.js, Express, Laravel 11, PostgreSQL, MySQL, Redis, REST APIs, JWT, Prisma, Docker, TimescaleDB.
+- **AI & Systems**: AI Agent skill orchestration, OpenAI SDK, RAG ecosystems, subagent workflows, CLI tooling.
+- **Frontend & UI Engineering**: Next.js 16, React, TypeScript, Tailwind CSS v4, Framer Motion, HTML5 Canvas 60 FPS sequence scrubbing.
+
+## Featured Open Source Projects
+1. **Skill Pilot**: Open-source CLI (`npx skills add`) for AI agent skill discovery and repository capabilities.
+2. **Quick Extension Manager**: Privacy-first Chrome Extension Manager for developer productivity.
+3. **Awesome Open AI Alternatives**: Curated ecosystem of open-source alternatives to proprietary AI models and frameworks.
+4. **Cinematic Developer Portfolio**: Award-winning interactive scrollytelling web experience.
+5. **Free Hosting Guide**: Developer platform comparison for modern web apps.
