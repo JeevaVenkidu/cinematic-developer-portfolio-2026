@@ -19,6 +19,11 @@ const baseUrl = "https://jeevavenkidu.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
   title: {
     default: "Jeeva Venkidu — Backend Software Developer & Engineer",
     template: "%s | Jeeva Venkidu",
@@ -55,10 +60,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/img-docs/Hero_1.png",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Jeeva Venkidu — Portfolio Hero",
+        alt: "Jeeva Venkidu — Portfolio Hero Preview",
       },
     ],
   },
@@ -67,7 +72,7 @@ export const metadata: Metadata = {
     title: "Jeeva Venkidu — Backend Software Developer & Engineer",
     description:
       "Agricultural Engineer turned Backend Software Developer building digital products, AI engines, and open-source tools.",
-    images: ["/img-docs/Hero_1.png"],
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
