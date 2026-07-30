@@ -4,6 +4,35 @@ An open-source, award-winning style interactive developer portfolio featuring **
 
 ---
 
+## 📸 Preview & Showcase
+
+<div align="center">
+
+### Hero Canvas Scrollytelling
+![Hero Scene 1](./img-docs/Hero_1.png)
+
+<br />
+
+| Scene 02 — Origin | Scene 03 — Purpose |
+| :---: | :---: |
+| ![Hero Scene 2](./img-docs/Hero_2.png) | ![Hero Scene 3](./img-docs/Hero_3.png) |
+
+| Scene 04 — Craft | Scene 07 — Continuum |
+| :---: | :---: |
+| ![Hero Scene 4](./img-docs/Hero_4.png) | ![Hero Scene End](./img-docs/Hero_end.png) |
+
+<br />
+
+### Featured Work Grid & Sections
+
+| Featured Case Studies | About & Engineering Background | Contact & Connect |
+| :---: | :---: | :---: |
+| ![Featured Projects](./img-docs/Projects.png) | ![About Section](./img-docs/about.png) | ![Contact Section](./img-docs/Contact.png) |
+
+</div>
+
+---
+
 ## ✨ Features
 
 - **🎞️ Canvas Sequence Scrollytelling**: High-performance 60FPS image sequence scrubber attached to scroll progress.
@@ -129,6 +158,7 @@ Frame sequence PNG files are located in `/public/sequence/`. You can replace the
 │   ├── Projects.tsx       # Interactive project grid & category filter
 │   ├── ScrollyCanvas.tsx  # HTML5 Canvas image sequence scrubber
 │   └── icons.tsx          # Custom SVG icon set
+├── img-docs/              # Documentation showcase screenshots
 ├── public/
 │   ├── fonts/             # Self-hosted Clash Display woff2 font files
 │   └── sequence/          # 120-frame image sequence PNGs
@@ -157,4 +187,3 @@ npx vercel
 ## 📄 License
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details. You are free to use, modify, and distribute it for personal or commercial portfolios.
-# -cinematic-developer-portfolio-2026
