@@ -102,6 +102,13 @@ body {
   mix-blend-mode: soft-light;
 }
 
+@media (max-width: 768px) {
+  .story__grain {
+    mix-blend-mode: normal;
+    opacity: 0.08;
+  }
+}
+
 .story__identity,
 .story__progress {
   position: absolute;

@@ -57,14 +57,17 @@ export function ScrollyCanvas({ children }: ScrollyCanvasProps) {
     (idx: number, images: HTMLImageElement[] = imagesRef.current) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d", { alpha: false });
       if (!ctx) return;
 
       const img = images[idx];
       if (!img || !img.complete || img.naturalWidth === 0) return;
 
-      const dpr = window.devicePixelRatio || 1;
+      // Cap DPR at 2 max for mobile GPU performance optimization
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const { width: cssW, height: cssH } = canvas.getBoundingClientRect();
+      if (cssW === 0 || cssH === 0) return;
+
       const w = Math.round(cssW * dpr);
       const h = Math.round(cssH * dpr);
 
@@ -72,6 +75,10 @@ export function ScrollyCanvas({ children }: ScrollyCanvasProps) {
         canvas.width = w;
         canvas.height = h;
       }
+
+      // Enable fast image smoothing
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "medium";
 
       // Clear with matching background
       ctx.fillStyle = "#121212";
@@ -94,6 +101,8 @@ export function ScrollyCanvas({ children }: ScrollyCanvasProps) {
   );
 
   // ── 3. Scroll → progress → frame (vanilla rAF loop) ───────────────
+  const lastSetProgressRef = useRef<number>(-1);
+
   useEffect(() => {
     const tick = () => {
       const el = containerRef.current;
@@ -104,8 +113,11 @@ export function ScrollyCanvas({ children }: ScrollyCanvasProps) {
           const raw = Math.min(1, Math.max(0, -rect.top / scrollable));
           progressRef.current = raw;
 
-          // Update React state (throttled to rAF)
-          setProgress(raw);
+          // Throttle React state updates to prevent heavy mobile re-renders
+          if (Math.abs(raw - lastSetProgressRef.current) > 0.001) {
+            lastSetProgressRef.current = raw;
+            setProgress(raw);
+          }
 
           // Pick frame and paint if changed
           const idx = Math.min(
@@ -115,8 +127,6 @@ export function ScrollyCanvas({ children }: ScrollyCanvasProps) {
           if (idx !== currentFrameRef.current) {
             currentFrameRef.current = idx;
             paintFrame(idx);
-            // Debug: uncomment to verify frame scrubbing
-            // console.log(`[ScrollyCanvas] frame=${idx} progress=${raw.toFixed(3)}`);
           }
         }
       }
