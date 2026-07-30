@@ -37,6 +37,9 @@ export const metadata: Metadata = {
       "Scrollytelling portfolio showcasing engineering, digital product craft, and software passion.",
     type: "website",
   },
+  verification: {
+    google: "YE-WDbgpyPFrWgSTNwQ3zc6NHRYvOjifibcWCItmNpA",
+  },
 };
 
 export default function RootLayout({

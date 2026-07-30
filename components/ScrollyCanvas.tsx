@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { SEQUENCE_FILES } from "@/lib/sequenceFiles";
 
 const TOTAL_FRAMES = SEQUENCE_FILES.length; // 120
@@ -154,26 +154,71 @@ export function ScrollyCanvas({ children }: ScrollyCanvasProps) {
         />
 
         {/* Loader overlay */}
-        {!isLoaded && (
-          <div className="absolute inset-0 z-30 bg-[#121212] flex flex-col items-center justify-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center animate-pulse">
-              <span className="font-mono text-emerald-400 text-xs font-bold">
-                JV
-              </span>
-            </div>
-            <div className="w-64 h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-white/10">
-              <motion.div
-                className="h-full bg-gradient-to-r from-emerald-500 to-cyan-400"
-                initial={{ width: 0 }}
-                animate={{ width: `${pct}%` }}
-                transition={{ duration: 0.15 }}
-              />
-            </div>
-            <p className="text-xs font-mono text-zinc-400 tracking-wider">
-              LOADING FRAMES... {pct}%
-            </p>
-          </div>
-        )}
+        <AnimatePresence>
+          {!isLoaded && (
+            <motion.div
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }}
+              className="absolute inset-0 z-40 bg-[#07090d] flex flex-col items-center justify-center overflow-hidden"
+            >
+              {/* Background ambient lighting & film grain */}
+              <div className="story__scrim" />
+              <div className="story__grain" />
+              <div className="absolute w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
+
+              {/* Center Content Group */}
+              <div className="relative z-10 flex flex-col items-center max-w-md px-6 text-center">
+                {/* Brand Badge */}
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mb-8 backdrop-blur-md"
+                >
+                  <span className="font-mono text-emerald-400 text-xs font-bold tracking-wider">
+                    JV
+                  </span>
+                </motion.div>
+
+                {/* Big Monolithic Percentage */}
+                <div className="flex items-baseline gap-1 mb-4">
+                  <span className="font-display text-6xl sm:text-7xl font-bold text-[#f4f0e8] tracking-[-0.04em]">
+                    {pct}
+                  </span>
+                  <span className="font-mono text-xl text-emerald-400 font-medium">
+                    %
+                  </span>
+                </div>
+
+                {/* Progress Bar Track */}
+                <div className="w-64 sm:w-80 h-[2px] bg-white/10 rounded-full overflow-hidden mb-6 relative">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-[#f4f0e8] origin-left shadow-[0_0_12px_rgba(16,185,129,0.8)]"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${pct}%` }}
+                    transition={{ duration: 0.1, ease: "easeOut" }}
+                  />
+                </div>
+
+                {/* Terminal Status Details */}
+                <div className="flex flex-col items-center gap-1.5 font-mono text-[10px] tracking-[0.2em] uppercase text-zinc-400">
+                  <span className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span>INITIALIZING CANVAS ENGINE</span>
+                  </span>
+                  <span className="text-zinc-500">
+                    [{String(loadedCount).padStart(3, "0")} / {TOTAL_FRAMES} FRAMES LOADED]
+                  </span>
+                </div>
+              </div>
+
+              {/* Bottom Copyright/Version Footer */}
+              <div className="absolute bottom-8 left-0 right-0 flex justify-between px-8 font-mono text-[10px] tracking-[0.2em] text-zinc-600 uppercase">
+                <span>PORTFOLIO SEQUENCE ’26</span>
+                <span>STATUS // LOADING</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Text overlay — receives numeric progress 0‑1 */}
         {React.Children.map(children, (child) =>

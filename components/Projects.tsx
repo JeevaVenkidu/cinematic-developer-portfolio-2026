@@ -44,7 +44,7 @@ const PROJECTS: Project[] = [
     ],
     githubUrl:
       "https://github.com/JeevaVenkidu/cinematic-developer-portfolio-2026",
-    liveUrl: "#",
+    liveUrl: "https://jeevavenkidu.vercel.app/",
     metrics: "60 FPS Canvas • Responsive • Open Source",
     gradient: "from-purple-500/20 via-pink-500/10 to-transparent",
   },
