@@ -61,8 +61,8 @@ npm -v
 ### 2. Clone the Repository
 
 ```bash
-git clone https://github.com/JeevaVenkidu/awwwards-style-portfolio-2026.git
-cd awwwards-style-portfolio-2026
+git clone https://github.com/JeevaVenkidu/cinematic-developer-portfolio-2026.git
+cd cinematic-developer-portfolio-2026
 ```
 
 ### 3. Install Dependencies
@@ -186,4 +186,10 @@ npx vercel
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details. You are free to use, modify, and distribute it for personal or commercial portfolios.
+This repository is dual-licensed:
+
+- **Source Code**: Licensed under the **[MIT License](LICENSE)** — free to use, modify, and deploy.
+- **Content & Media**: Written text, story copy, bio, and images are licensed under **[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)**.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)

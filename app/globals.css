@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+:root {
+  --background: #121212;
+  --foreground: #f3f4f6;
+  --accent-emerald: #10b981;
+  --accent-cyan: #06b6d4;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", "Cascadia Code", monospace;
+  --font-display: var(--font-clash-display), var(--font-geist-sans), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #121212;
+  color: #f3f4f6;
+}
+
+body {
+  background-color: #121212;
+  color: #f3f4f6;
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  selection-background-color: #10b981;
+  selection-color: #121212;
+}
+
+/* Custom Glassmorphism Utilities */
+.glass-panel {
+  background: rgba(18, 18, 18, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card:hover {
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 12px 40px 0 rgba(16, 185, 129, 0.12);
+}
+
+/* Glow gradient text — refined for display type */
+.text-gradient {
+  background: linear-gradient(160deg, #ffffff 0%, #a1a1aa 60%, #71717a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #6ee7b7 0%, #10b981 50%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #67e8f9 0%, #06b6d4 50%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cinematic Story Overlay Styles */
+:root {
+  --ink: #07090d;
+  --paper: #f4f0e8;
+  --mist: rgba(244, 240, 232, 0.7);
+  --hairline: rgba(244, 240, 232, 0.22);
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.story__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(4, 7, 12, 0.78) 0%, rgba(4, 7, 12, 0.18) 45%, rgba(4, 7, 12, 0.52) 100%),
+    linear-gradient(0deg, rgba(3, 6, 11, 0.78) 0%, transparent 38%, rgba(3, 6, 11, 0.32) 100%);
+}
+
+.story__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+.story__identity,
+.story__progress {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.63rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.story__identity {
+  top: max(1.5rem, env(safe-area-inset-top));
+  right: clamp(1.5rem, 4vw, 4.5rem);
+  gap: 1rem;
+  color: var(--mist);
+}
+
+.story__identity span:first-child {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid var(--hairline);
+  color: var(--paper);
+}
+
+.story__progress {
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+  left: clamp(1.5rem, 4vw, 4.5rem);
+  gap: 0.85rem;
+  color: var(--mist);
+}
+
+.story__progress-label {
+  white-space: nowrap;
+}
+
+.story__progress-track {
+  width: clamp(5rem, 8vw, 8.5rem);
+  height: 1px;
+  overflow: hidden;
+  background: rgba(244, 240, 232, 0.3);
+}
+
+.story__progress-value {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  background: var(--paper);
+  transition: transform 70ms linear;
+}
+
+.story__progress-count {
+  color: var(--paper);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #10b981;
+}
