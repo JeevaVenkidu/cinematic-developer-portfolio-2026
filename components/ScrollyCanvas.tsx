@@ -100,50 +100,68 @@ export function ScrollyCanvas({ children }: ScrollyCanvasProps) {
     []
   );
 
-  // ── 3. Scroll → progress → frame (vanilla rAF loop) ───────────────
+  // ── 3. Optimized Passive Scroll Listener (Zero Main-Thread Blocking) ──
   const lastSetProgressRef = useRef<number>(-1);
+  const viewportHeightRef = useRef<number>(0);
 
   useEffect(() => {
-    const tick = () => {
-      const el = containerRef.current;
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        const scrollable = rect.height - window.innerHeight;
-        if (scrollable > 0) {
-          const raw = Math.min(1, Math.max(0, -rect.top / scrollable));
-          progressRef.current = raw;
+    // Cache viewport height to prevent layout thrashing on mobile scroll
+    viewportHeightRef.current = window.innerHeight;
 
-          // Throttle React state updates to prevent heavy mobile re-renders
-          if (Math.abs(raw - lastSetProgressRef.current) > 0.001) {
-            lastSetProgressRef.current = raw;
-            setProgress(raw);
-          }
+    let ticking = false;
 
-          // Pick frame and paint if changed
-          const idx = Math.min(
-            TOTAL_FRAMES - 1,
-            Math.max(0, Math.round(raw * (TOTAL_FRAMES - 1)))
-          );
-          if (idx !== currentFrameRef.current) {
-            currentFrameRef.current = idx;
-            paintFrame(idx);
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const el = containerRef.current;
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            const vh = viewportHeightRef.current || window.innerHeight;
+            const scrollable = rect.height - vh;
+            if (scrollable > 0) {
+              const raw = Math.min(1, Math.max(0, -rect.top / scrollable));
+              progressRef.current = raw;
+
+              // Throttle React state update to prevent heavy mobile re-renders
+              if (Math.abs(raw - lastSetProgressRef.current) > 0.0015) {
+                lastSetProgressRef.current = raw;
+                setProgress(raw);
+              }
+
+              // Pick frame and paint if changed
+              const idx = Math.min(
+                TOTAL_FRAMES - 1,
+                Math.max(0, Math.round(raw * (TOTAL_FRAMES - 1)))
+              );
+              if (idx !== currentFrameRef.current) {
+                currentFrameRef.current = idx;
+                paintFrame(idx);
+              }
+            }
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
-      rafRef.current = requestAnimationFrame(tick);
     };
 
-    rafRef.current = requestAnimationFrame(tick);
+    const handleResize = () => {
+      viewportHeightRef.current = window.innerHeight;
+      paintFrame(currentFrameRef.current);
+    };
+
+    // Initial paint
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("touchmove", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize);
+
     return () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchmove", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
-  }, [paintFrame]);
-
-  // ── 4. Repaint on resize ───────────────────────────────────────────
-  useEffect(() => {
-    const onResize = () => paintFrame(currentFrameRef.current);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
   }, [paintFrame]);
 
   const pct = Math.round((loadedCount / TOTAL_FRAMES) * 100);
@@ -152,15 +170,15 @@ export function ScrollyCanvas({ children }: ScrollyCanvasProps) {
     <div
       id="scrolly-section"
       ref={containerRef}
-      className="relative w-full bg-[#121212]"
-      style={{ height: "500vh" }}
+      className="relative w-full bg-[#121212] h-[350vh] md:h-[500vh]"
+      style={{ touchAction: "pan-y" }}
     >
       {/* Sticky viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#121212]">
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#121212] will-change-transform">
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full block"
-          style={{ touchAction: "none" }}
+          style={{ touchAction: "pan-y" }}
         />
 
         {/* Loader overlay */}

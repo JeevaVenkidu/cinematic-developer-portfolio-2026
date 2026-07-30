@@ -141,7 +141,7 @@ export function Overlay({ progress }: OverlayProps) {
         className="absolute inset-0 flex flex-col justify-center items-start pl-6 md:pl-20 lg:pl-28 pr-6 max-w-4xl"
         style={{
           opacity: heroOpacity,
-          transform: `translateY(${heroY}px)`,
+          transform: `translate3d(0, ${heroY}px, 0)`,
           willChange: "opacity, transform",
         }}
       >
@@ -182,7 +182,7 @@ export function Overlay({ progress }: OverlayProps) {
             className={`absolute inset-0 flex flex-col justify-center ${alignClass}`}
             style={{
               opacity,
-              transform: `translateY(${y}px)`,
+              transform: `translate3d(0, ${y}px, 0)`,
               willChange: "opacity, transform",
             }}
           >
@@ -210,7 +210,7 @@ export function Overlay({ progress }: OverlayProps) {
         className="absolute inset-0 flex flex-col justify-center items-center px-6 text-center"
         style={{
           opacity: ctaOpacity,
-          transform: `translateY(${ctaY}px)`,
+          transform: `translate3d(0, ${ctaY}px, 0)`,
           willChange: "opacity, transform",
         }}
       >
